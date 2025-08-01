@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGB: Soporte y Criterios de Ingreso a UCI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Manejo de Soporte en SGB: Criterios de Triaje para UCI</h1>
+            <p class="intro">
+                El pilar del manejo agudo del SGB es la <strong>vigilancia proactiva</strong> para anticipar y prevenir la insuficiencia respiratoria. La decisión de ingreso a UCI se basa en un monitoreo sistemático, no en esperar el colapso.
+            </p>
+        </header>
+
+        <main class="clinical-pathway">
+            <section class="pathway-step alert-level reveal-on-scroll">
+                <h2><span>1</span>Indicadores de Alto Riesgo: Considerar Ingreso a UCI</h2>
+                <p>La presencia de <strong>uno o más</strong> de estos factores justifica una evaluación intensiva y la posible admisión en la UCI:</p>
+                <ul>
+                    <li>❤️ <strong>Disfunción Autonómica:</strong> Fluctuaciones severas en presión arterial o frecuencia cardíaca.</li>
+                    <li>🧠 <strong>Disfunción Bulbar:</strong> Dificultad para hablar, tragar o manejar secreciones.</li>
+                    <li>💪 <strong>Debilidad Severa o de Rápida Progresión:</strong> Especialmente de los músculos del cuello y la cadera.</li>
+                    <li>🫁 <strong>Dificultad Respiratoria en Evolución.</strong></li>
+                </ul>
+            </section>
+
+            <section class="pathway-step reveal-on-scroll">
+                <h2><span>2</span>Evaluación Sistemática del Estado Ventilatorio</h2>
+                <div class="assessment-cards">
+                    <div class="card">
+                        <h3>Evaluación Clínica (Cabecera)</h3>
+                        <p><strong>Prueba de Conteo:</strong> Incapacidad para contar hasta 15 o más en una sola espiración.</p>
+                        <p><strong>Fuerza de la Tos:</strong> Una tos débil indica incapacidad para proteger la vía aérea.</p>
+                    </div>
+                     <div class="card">
+                        <h3>Herramientas de Predicción</h3>
+                        <p><strong>Escala EGRIS:</strong> Una puntuación > 4 al ingreso predice un riesgo ≥65% de insuficiencia respiratoria.</p>
+                         <p><strong>Fuerza Muscular:</strong> Debilidad de los flexores del cuello y la cadera es un predictor simplificado y eficaz.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pathway-step rule-section reveal-on-scroll">
+                 <h2><span>3</span>Pruebas Objetivas: La Regla "20/30/40"</h2>
+                 <p>Estos umbrales en las pruebas de función pulmonar indican un riesgo inminente de fallo respiratorio y son una indicación clara para el ingreso a la UCI. Deben medirse cada 2-4 horas.</p>
+                <div class="rule-20-30-40">
+                    <div class="rule-card">
+                        <div class="value">20</div>
+                        <div class="label">Capacidad Vital (CV)</div>
+                        <div class="unit">&lt; 20 mL/kg</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="value">30</div>
+                        <div class="label">Presión Inspiratoria Máx. (PIM)</div>
+                        <div class="unit">&lt; 30 cm H₂O</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="value">40</div>
+                        <div class="label">Presión Espiratoria Máx. (PEM)</div>
+                        <div class="unit">&lt; 40 cm H₂O</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pathway-step safe-level reveal-on-scroll">
+                <h2><span>4</span>Criterios para Manejo Fuera de la UCI</h2>
+                <p>No todos los pacientes requieren UCI. Aquellos que cumplen los siguientes criterios pueden manejarse en una sala general con monitoreo continuo:</p>
+                <ul>
+                    <li>✅ Pacientes que han alcanzado su <strong>nadir clínico</strong> (punto de máxima debilidad) y se han estabilizado.</li>
+                    <li>✅ Pacientes con deterioro modesto que mantienen la capacidad de caminar.</li>
+                </ul>
+            </section>
+        </main>
+
+        <section class="glossary">
+            <h2>Glosario</h2>
+            <dl>
+                <dt>Cuidado de Soporte</dt><dd>Intervenciones para mantener funciones vitales y prevenir complicaciones.</dd>
+                <dt>Disfunción Bulbar</dt><dd>Debilidad de músculos de boca y garganta (afecta habla y deglución).</dd>
+                <dt>Disautonomía</dt><dd>Alteración del sistema nervioso autónomo (controla presión, pulso, etc.).</dd>
+                <dt>Nadir Clínico</dt><dd>El punto más bajo de la enfermedad en términos de severidad.</dd>
+                <dt>EGRIS</dt><dd>Escala de riesgo para predecir la insuficiencia respiratoria en SGB.</dd>
+            </dl>
+        </section>
+    </div>
+
+</body>
+</html>

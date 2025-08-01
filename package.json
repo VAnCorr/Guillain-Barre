@@ -1,0 +1,21 @@
+{
+  "name": "analisis-riesgo-sgb-vacunas",
+  "version": "1.0.0",
+  "description": "Análisis interactivo del riesgo de SGB asociado a la vacunación.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "serve ."
+  },
+  "author": "Gem 2 - Arquitecto de Cimientos",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "ally.js": "^1.4.1",
+    "d3": "^7.8.5",
+    "gsap": "^3.12.5",
+    "lit-html": "^3.1.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.2",
+    "serve": "^14.2.1"
+  }
+}

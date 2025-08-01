@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparativa SGB: AIDP vs. AMAN</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Source+Serif+Pro:wght@700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="main.js" defer></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Fisiopatología Comparada del SGB</h1>
+            <p class="intro">
+                AIDP y AMAN son dos caras de la misma enfermedad. La diferencia fundamental es la diana del ataque: el "aislamiento" del nervio (mielina) o el "cable" mismo (axón). Explora los tópicos para ver sus diferencias clave.
+            </p>
+        </header>
+
+        <main>
+            <nav id="comparison-nav">
+                <button class="topic-btn active" data-topic="diana">🎯 Diana del Ataque</button>
+                <button class="topic-btn" data-topic="mecanismo">⚙️ Mecanismo de Daño</button>
+                <button class="topic-btn" data-topic="consecuencia">⚡ Consecuencia Funcional</button>
+                <button class="topic-btn" data-topic="reparacion">🛠️ Reparación y Secuelas</button>
+            </nav>
+
+            <div id="comparison-container">
+                <div class="column" id="aidp-column">
+                    <h2 class="column-title aidp-theme">AIDP (Mielinopatía)</h2>
+                    <div id="diana-aidp" class="topic-content active">
+                        <h3>Objetivo: Mielina y Células de Schwann</h3>
+                        <p>El ataque inmune se dirige contra la superficie de las <strong>células de Schwann</strong> y la <strong>vaina de mielina</strong> que estas producen. Los autoantígenos exactos no están completamente definidos.</p>
+                    </div>
+                    <div id="mecanismo-aidp" class="topic-content">
+                        <h3>Desmielinización por Macrófagos</h3>
+                        <p>Anticuerpos y complemento inician el daño, pero el rol central lo juegan los <strong>macrófagos</strong>, que invaden activamente la vaina de mielina y la fagocitan ("stripping"), dejando el axón desnudo.</p>
+                    </div>
+                    <div id="consecuencia-aidp" class="topic-content">
+                        <h3>Bloqueo de Conducción</h3>
+                        <p>La pérdida de mielina interrumpe la conducción saltatoria, lo que <strong>enlentece o bloquea</strong> el impulso nervioso. En casos severos, la falta de soporte de las células de Schwann puede causar daño axonal secundario.</p>
+                    </div>
+                    <div id="reparacion-aidp" class="topic-content">
+                        <h3>Remielinización</h3>
+                        <p>Las células de Schwann supervivientes se dividen y vuelven a mielinizar los axones. Este proceso de reparación deja una "cicatriz": <strong>internodos más cortos</strong> que los originales.</p>
+                    </div>
+                </div>
+
+                <div class="column" id="aman-column">
+                    <h2 class="column-title aman-theme">AMAN (Nodopatía)</h2>
+                    <div id="diana-aman" class="topic-content active">
+                        <h3>Objetivo: Nodos de Ranvier</h3>
+                        <p>Ataque altamente específico contra la membrana del axón (axolema) en los <strong>Nodos de Ranvier</strong>. Las dianas son los gangliósidos <strong>GM1 y GD1a</strong>, muy abundantes en esta zona.</p>
+                    </div>
+                    <div id="mecanismo-aman" class="topic-content">
+                        <h3>Daño Axonal por Complemento</h3>
+                        <p>Anticuerpos IgG se unen a los gangliósidos, activando el <strong>sistema del complemento</strong>. Esto forma el Complejo de Ataque a la Membrana (MAC) directamente sobre el axón, perforándolo.</p>
+                    </div>
+                    <div id="consecuencia-aman" class="topic-content">
+                        <h3>Bloqueo Reversible o Degeneración</h3>
+                        <p>El ataque puede causar un <strong>bloqueo reversible</strong> (buen pronóstico) o un daño físico al axón por entrada masiva de calcio, llevando a una <strong>degeneración axonal</strong> irreversible (mal pronóstico).</p>
+                    </div>
+                    <div id="reparacion-aman" class="topic-content">
+                        <h3>Regeneración Axonal</h3>
+                        <p>La reparación depende de la regeneración del propio axón desde el cuerpo neuronal. Es un proceso <strong>lento, a menudo incompleto</strong> y energéticamente costoso.</p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="summary-section">
+                <h3>Tabla Comparativa Resumida</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>AIDP (Mielinopatía)</th>
+                            <th>AMAN (Nodopatía / Axonopatía)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Diana Primaria</strong></td>
+                            <td>Célula de Schwann / Mielina</td>
+                            <td>Axolema en el Nodo de Ranvier (GM1/GD1a)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Efector Principal</strong></td>
+                            <td>Macrófagos (fagocitan mielina)</td>
+                            <td>Anticuerpos y Complemento (MAC)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lesión Patológica</strong></td>
+                            <td>Desmielinización segmentaria</td>
+                            <td>Daño nodal y/o degeneración axonal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reparación</strong></td>
+                            <td>Remielinización (internodos cortos)</td>
+                            <td>Regeneración axonal (lenta/incompleta)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="glossary">
+                <h2>Glosario de Términos Clave</h2>
+                <dl>
+                    <dt>Mielinopatía</dt><dd>Enfermedad que afecta primariamente a la vaina de mielina.</dd>
+                    <dt>Nodopatía</dt><dd>Enfermedad que afecta primariamente a la estructura de los Nodos de Ranvier.</dd>
+                    <dt>Célula de Schwann</dt><dd>Célula glial que produce la mielina en el sistema nervioso periférico.</dd>
+                    <dt>Nodo de Ranvier</dt><dd>Espacio sin mielina en el axón, crucial para la conducción rápida del impulso.</dd>
+                    <dt>Complejo de Ataque a la Membrana (MAC)</dt><dd>Estructura proteica del sistema del complemento que perfora membranas celulares.</dd>
+                </dl>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+/* Estilos Generales y Variables */
+:root {
+    --primary-color: #0d3b66;
+    --secondary-color: #faf0ca;
+    --accent-color: #f4d35e;
+    --alert-border: #d00000;
+    --alert-bg: #fff1f1;
+    --bg-color: #f7f7f7;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --light-text: #555;
+    --border-color: #e0e0e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Contenedor y Encabezado */
+.container {
+    max-width: 950px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+}
+header {
+    text-align: center;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+h1 {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: var(--primary-color);
+}
+h2 {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+h3 {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.intro strong { color: var(--primary-color); }
+
+/* Navegación por Pestañas */
+.main-tabs-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+.tab-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    background-color: #f1f1f1;
+    color: var(--light-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.tab-btn:hover {
+    background-color: #e9e9e9;
+}
+.tab-btn.active {
+    background-color: var(--card-bg);
+    color: var(--primary-color);
+    border-color: var(--border-color);
+    transform: translateY(1px);
+}
+
+/* Contenido de las Pestañas */
+.main-tabs-content {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0 8px 8px 8px;
+}
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+.tab-content.active {
+    display: block;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Tarjetas y Rejillas de Contenido */
+.content-card {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+.comparison-card {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+.clinical-alert {
+    border-color: var(--alert-border);
+    background-color: var(--alert-bg);
+}
+.clinical-alert strong {
+    color: var(--alert-border);
+}
+
+ul { padding-left: 20px; }
+li { margin-bottom: 0.5rem; }
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+    .container {
+        padding: 1rem;
+    }
+}

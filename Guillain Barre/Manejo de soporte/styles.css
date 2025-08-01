@@ -1,0 +1,151 @@
+/* Estilos Generales y Variables */
+:root {
+    --primary-color: #1d3557;
+    --secondary-color: #457b9d;
+    --accent-color: #a8dadc;
+    --alert-color: #e63946;
+    --safe-color: #2a9d8f;
+    --bg-color: #f1faee;
+    --card-bg: #ffffff;
+    --text-color: #2b2d42;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+/* Contenedor y Encabezado */
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+}
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+h1 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+.intro strong {
+    color: var(--alert-color);
+}
+
+/* Camino Clínico */
+.clinical-pathway {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.pathway-step {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    border-left: 5px solid;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.pathway-step.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pathway-step h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.pathway-step h2 span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 1.2rem;
+}
+
+/* Estilos por Nivel de Riesgo */
+.alert-level { border-color: var(--alert-color); }
+.alert-level h2 span { background-color: var(--alert-color); }
+.safe-level { border-color: var(--safe-color); }
+.safe-level h2 span { background-color: var(--safe-color); }
+
+ul { list-style: none; padding-left: 0; }
+li { margin-bottom: 0.5rem; }
+
+/* Tarjetas de Evaluación */
+.assessment-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+.card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+.card h3 { font-size: 1.1rem; color: var(--secondary-color); }
+
+/* Regla 20/30/40 */
+.rule-section { text-align: center; border-color: var(--secondary-color); }
+.rule-section h2 span { background-color: var(--secondary-color); }
+
+.rule-20-30-40 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+.rule-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+}
+.rule-card .value {
+    font-size: 4rem;
+    font-weight: 700;
+}
+.rule-card .label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+.rule-card .unit {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+/* Glosario */
+.glossary {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+}
+.glossary h2 { text-align: center; color: var(--primary-color); }
+dl { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem 1.5rem; }
+dt { font-weight: 700; }
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .rule-20-30-40 { grid-template-columns: 1fr; }
+    dl { grid-template-columns: 1fr; }
+}
