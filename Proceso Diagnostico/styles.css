@@ -1,0 +1,132 @@
+/* Estilos Generales y Variables */
+:root {
+    --primary-color: #005f73;
+    --secondary-color: #0a9396;
+    --accent-color: #ee9b00;
+    --danger-color: #9b2226;
+    --bg-color: #f4f7f5;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --light-text: #666;
+    --border-color: #e0e0e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Contenedor y Encabezado */
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+header {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+h1 { font-weight: 900; color: var(--primary-color); }
+h2 { color: var(--primary-color); margin-bottom: 1rem; }
+h3 { color: var(--secondary-color); margin-bottom: 0.75rem; }
+h4 { margin-bottom: 0.5rem; }
+
+/* Navegación por Pilares */
+.pillar-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.pillar-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background-color: #f8f9fa;
+    color: var(--light-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.pillar-btn .icon { font-size: 2rem; }
+.pillar-btn:hover { border-color: var(--accent-color); color: var(--primary-color); }
+.pillar-btn.active {
+    border-color: var(--secondary-color);
+    background-color: var(--card-bg);
+    color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+}
+
+/* Contenido de los Pilares */
+.pillar-content { display: none; animation: fadeIn 0.5s ease; }
+.pillar-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+ul { padding-left: 20px; }
+li { margin-bottom: 0.5rem; }
+
+/* Estilos Específicos */
+.red-flags {
+    border: 1px solid var(--danger-color);
+    border-left: 5px solid var(--danger-color);
+    background-color: #fff5f5;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+.red-flags h3 { color: var(--danger-color); }
+
+.csf-diagram {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+.bar-container { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.bar-container span { width: 80px; font-weight: 700; }
+.bar { height: 30px; line-height: 30px; padding: 0 1rem; color: white; border-radius: 4px; font-weight: 700; }
+.bar.protein.high { background-color: var(--accent-color); width: 80%; }
+.bar.cells.normal { background-color: var(--secondary-color); width: 20%; }
+
+/* Sub-Navegación en Electrodiagnóstico */
+.pattern-nav { display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem; }
+.pattern-btn {
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--light-text);
+    transition: all 0.3s ease;
+}
+.pattern-btn:hover { color: var(--primary-color); }
+.pattern-btn.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+.pattern-content { display: none; }
+.pattern-content.active { display: block; }
+
+/* Glosario */
+.glossary { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); }
+dl { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1rem; }
+dt { font-weight: 900; }
+
+@media (max-width: 768px) {
+    dl { grid-template-columns: 1fr; }
+}

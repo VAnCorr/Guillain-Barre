@@ -1,0 +1,129 @@
+/* Estilos Generales y Variables */
+:root {
+    --primary-color: #03045e;
+    --secondary-color: #0077b6;
+    --accent-color: #00b4d8;
+    --alert-bg: #fff1f0;
+    --alert-border: #ff4d4f;
+    --bg-color: #f7f9fc;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --light-text: #555;
+    --border-color: #dee2e6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Public Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+/* Contenedor y Encabezado */
+.container {
+    max-width: 850px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+header {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+h1 { font-size: 2rem; color: var(--primary-color); }
+h2 { color: var(--primary-color); margin-bottom: 1.5rem; }
+h3 { color: var(--secondary-color); margin-bottom: 1rem; }
+.intro strong { color: var(--primary-color); }
+
+/* Navegación por Pestañas */
+.tabs-nav {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+}
+.tab-btn {
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    color: var(--light-text);
+    transition: all 0.3s ease;
+    margin-bottom: -1px; /* Alinea con el borde inferior */
+}
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--secondary-color);
+}
+
+/* Contenido de las Pestañas */
+.tabs-content-container {
+    padding-top: 2rem;
+}
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+.tab-content.active {
+    display: block;
+}
+.sub-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+ul { padding-left: 20px; }
+li { margin-bottom: 0.5rem; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Sección de Alerta Clínica */
+.clinical-alert {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--alert-border);
+    border-left: 5px solid var(--alert-border);
+    background-color: var(--alert-bg);
+    border-radius: 8px;
+}
+.clinical-alert h3 {
+    color: var(--alert-border);
+}
+
+/* Glosario */
+.glossary {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+.glossary h2 { text-align: center; }
+dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem 1.5rem;
+}
+dt { font-weight: 700; color: var(--primary-color); }
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .container { padding: 1.5rem; }
+    .tabs-nav { flex-direction: column; }
+    .tab-btn { border-bottom-width: 1px; }
+    .tab-btn.active { border-bottom-color: var(--border-color); border-left: 3px solid var(--secondary-color); }
+    dl { grid-template-columns: 1fr; }
+}
