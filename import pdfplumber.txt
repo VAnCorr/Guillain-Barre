@@ -1,0 +1,11 @@
+import pdfplumber
+
+pdf_path = "C:\\Users\\LENOVO\\Downloads\\Princípios De Neurociências - 5_ed_ -- Eric R_ Kandel; James H_ Schwartz; Thomas M_ Jessell; Steven -- 5_ ed_, 2014 -- AMGH Editora LTDA -- 9780071390118 -- 05107d558901831283cad35a23b88589 -- Anna’s Archive.pdf"
+markdown_path = "output.md"
+
+with pdfplumber.open(pdf_path) as pdf:
+    with open(markdown_path, "w", encoding="utf-8") as md_file:
+        for page in pdf.pages:
+            text = page.extract_text()
+            md_file.write(text + "\n\n")
+print("PDF convertido a Markdown.")

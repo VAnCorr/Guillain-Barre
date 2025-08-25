@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Ventilación Mecánica</title>
+    <meta name="description" content="Guía completa sobre tipos de ventilación mecánica y análisis de presiones">
+    <style>
+        /* Variables de Diseño y Paleta de Colores */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #4c8eda;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 8px rgba(0,0,0,0.1);
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --callout-bg: #e9f7fd;
+            --hover-transform: translateY(-2px);
+            --transition-standard: all 0.3s ease;
+        }
+
+        /* Reset y Estilos Globales */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* Contenedor Principal */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            padding: 30px 20px 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin: 40px 0 20px 0;
+            position: relative;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        /* Párrafos y texto */
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Listas */
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Tarjetas */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition-standard);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+
+        .card:hover {
+            transform: var(--hover-transform);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        /* Acordeones mejorados */
+        details {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition-standard);
+        }
+
+        details:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        summary {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            padding: 20px 25px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-standard);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-bottom: 1px solid transparent;
+        }
+        
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '▼';
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        details[open] > summary::after {
+            transform: rotate(180deg);
+        }
+        
+        details[open] > summary {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f0f8ff 100%);
+            border-bottom-color: var(--border-color);
+        }
+
+        .details-content {
+            padding: 25px;
+        }
+
+        /* Bloque de análisis mejorado */
+        .analysis-block {
+            background: linear-gradient(135deg, var(--callout-bg) 0%, #f0f8ff 100%);
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(76, 142, 218, 0.1);
+        }
+
+        .analysis-block::before {
+            content: '💡';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        /* Flujo interactivo mejorado */
+        #interactive-flow {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #f8f9fa 100%);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 25px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        #interactive-flow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .flow-step {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: var(--transition-standard);
+            min-height: 120px;
+        }
+        
+        .flow-step.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        #flow-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+        
+        #flow-navigation button {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition-standard);
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+            min-width: 100px;
+        }
+
+        #flow-navigation button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        #flow-navigation button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        #flow-navigation button:disabled {
+            background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
+        #step-indicator {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-top: 20px;
+            font-style: italic;
+            font-weight: 500;
+            background-color: rgba(76, 142, 218, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Glosario mejorado */
+        #glossary dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 15px 25px;
+            align-items: start;
+        }
+
+        #glossary dt {
+            font-weight: 700;
+            color: var(--primary-color);
+            grid-column: 1;
+            padding: 8px 12px;
+            background-color: rgba(0, 123, 255, 0.1);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        #glossary dd {
+            margin: 0;
+            grid-column: 2;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* Subíndices y superíndices */
+        sub, sup {
+            font-size: 0.8em;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        sub {
+            bottom: -0.25em;
+        }
+
+        sup {
+            top: -0.5em;
+        }
+
+        /* Mejoras de accesibilidad */
+        button:focus,
+        summary:focus,
+        details:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Indicador de progreso visual */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #e9ecef;
+            border-radius: 2px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Diseño Responsivo */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.7rem;
+            }
+
+            h3 {
+                font-size: 1.3rem;
+            }
+
+            .card, .details-content {
+                padding: 20px;
+            }
+
+            #interactive-flow {
+                padding: 20px;
+            }
+
+            #glossary dl {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            #glossary dt {
+                margin-bottom: 5px;
+            }
+
+            #flow-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            #flow-navigation button {
+                width: 100%;
+            }
+
+            summary {
+                font-size: 1.1rem;
+                padding: 15px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .card, .details-content, #interactive-flow {
+                padding: 15px;
+            }
+
+            summary {
+                font-size: 1rem;
+                padding: 12px 15px;
+            }
+        }
+
+        /* Mejoras para impresión */
+        @media print {
+            .card, details {
+                box-shadow: none;
+                border: 1px solid #000;
+            }
+
+            #flow-navigation {
+                display: none;
+            }
+
+            .flow-step {
+                display: block !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            details {
+                border: none;
+            }
+
+            summary {
+                background: none;
+            }
+
+            details > .details-content {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Análisis de Términos y Conceptos Básicos en Ventilación Mecánica</h1>
+            <p>Guía completa sobre los fundamentos de la ventilación mecánica moderna</p>
+        </header>
+        
+        <section id="overview" aria-labelledby="overview-title">
+            <h2 id="overview-title">1. Visión General y Propósito Principal</h2>
+            <div class="card">
+                <h3>3.1. Presión Basal y PEEP</h3>
+                <p><strong>Presión Basal:</strong> Es la presión en el circuito del ventilador al final de la espiración, antes de que comience la siguiente inspiración.</p>
+                <ul>
+                    <li><strong>Línea de Base Atmosférica:</strong> Si la presión basal es cero, significa que el paciente está espirando hasta la presión atmosférica normal.</li>
+                    <li><strong>Presión Positiva al Final de la Espiración (PEEP):</strong> Cuando el clínico establece la presión basal para que esté intencionalmente por encima de cero (por ejemplo, +10 cm H₂O), esto se llama PEEP. Evita que los alvéolos se colapsen completamente, lo que puede mejorar la oxigenación y prevenir lesiones pulmonares inducidas por el ventilador.</li>
+                    <li><strong>PEEP Extrínseca:</strong> El nivel de PEEP establecido por el operador en el ventilador.</li>
+                    <li><strong>PEEP Intrínseca (Auto-PEEP):</strong> Una complicación que ocurre cuando un paciente no tiene tiempo suficiente para espirar completamente antes de que comience la siguiente respiración. Esto conduce al "atrapamiento aéreo" y a un aumento no intencionado de la presión al final de la espiración.</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>3.2. Presión Inspiratoria Pico (PIP o P<sub>peak</sub>)</h3>
+                <p><strong>Definición:</strong> La PIP es la presión más alta registrada por el manómetro al final de la fase inspiratoria. También se le llama presión pico de la vía aérea.</p>
+                <p><strong>Qué Representa:</strong> La PIP refleja la presión total necesaria para superar dos factores principales:</p>
+                <ol>
+                    <li><strong>Resistencia de la Vía Aérea (P<sub>TA</sub>):</strong> La presión requerida para empujar el gas a través de las vías aéreas de conducción (tráquea, bronquios, bronquiolos).</li>
+                    <li><strong>Retroceso Elástico:</strong> La presión requerida para estirar los pulmones y la pared torácica para acomodar el volumen de gas entregado (esto se refleja en la presión alveolar, P<sub>alv</sub>).</li>
+                </ol>
+                <p>Por lo tanto, la PIP representa tanto la resistencia de las vías aéreas como la distensibilidad (compliance) del sistema respiratorio.</p>
+            </div>
+            
+            <div class="card">
+                <h3>3.3. Presión Meseta (P<sub>plat</sub>)</h3>
+                <p><strong>Definición:</strong> La presión meseta es la presión medida durante una pausa inspiratoria o mantenimiento de la inspiración (típicamente de 0.5 a 1.5 segundos). Durante esta pausa, no hay flujo de gas.</p>
+                <p><strong>Qué Representa:</strong> Debido a que no hay flujo de aire durante la pausa, el componente de resistencia de la presión desaparece. La presión restante se debe únicamente al retroceso elástico de los pulmones y la pared torácica que empujan contra el volumen de gas inflado.</p>
+                <p>Por lo tanto, <strong>la Presión Meseta es un excelente indicador de la presión pico dentro de los alvéolos (P<sub>alv</sub>)</strong>. Es una medida crítica de la distensibilidad (la capacidad de estiramiento) de los pulmones y la pared torácica.</p>
+                <p><strong>Relación con la PIP:</strong> La diferencia entre la PIP y la presión meseta (PIP - P<sub>plat</sub>) representa la presión perdida debido a la resistencia de la vía aérea. Una gran diferencia indica una alta resistencia (por ejemplo, broncoespasmo, secreciones, obstrucción del tubo endotraqueal).</p>
+                
+                <div class="analysis-block">
+                    <h4>Volumen y Presión al Final de la Inspiración (Fig. 1.11)</h4>
+                    <p>Este diagrama muestra que al final de una espiración normal (línea de base), el aire que queda en los pulmones es la Capacidad Residual Funcional (CRF). Cuando el ventilador entrega una respiración de un tamaño específico, el Volumen Tidal (V<sub>T</sub>), el volumen pulmonar total se convierte en V<sub>T</sub> + CRF. La presión meseta es la presión medida en este punto de máxima inflación cuando el flujo se ha detenido temporalmente.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>3.4. Gradientes de Presión</h3>
+                <p>El aire fluye únicamente cuando hay un gradiente de presión (una diferencia de presión de un punto a otro). El texto identifica cuatro gradientes clave utilizados para describir la ventilación mecánica:</p>
+                <ul>
+                    <li><strong>Presión Transaérea (P<sub>TA</sub>):</strong> Diferencia entre la presión de apertura de la vía aérea (P<sub>awo</sub>) y la presión alveolar (P<sub>alv</sub>). Representa la presión necesaria para superar la resistencia de la vía aérea.</li>
+                    <li><strong>Presión Transpulmonar:</strong> Diferencia entre la presión alveolar y la presión intrapleural, que refleja la presión que distiende específicamente los pulmones.</li>
+                    <li><strong>Presión Transtorácica:</strong> Diferencia entre la presión intrapleural y la presión atmosférica, relacionada con el movimiento de la pared torácica.</li>
+                    <li><strong>Presión Transrespiratoria:</strong> Diferencia entre la presión de apertura de la vía aérea y la presión atmosférica, que representa la presión total aplicada al sistema respiratorio.</li>
+                </ul>
+                <p>Estos gradientes son fundamentales para entender cómo se distribuyen las fuerzas durante la ventilación mecánica y cómo afectan tanto a los pulmones como al sistema cardiovascular.</p>
+            </div>
+        </section>
+
+        <section id="clinical-implications" aria-labelledby="clinical-implications-title">
+            <h2 id="clinical-implications-title">4. Implicaciones Clínicas y Monitorización</h2>
+            
+            <div class="card">
+                <h3>4.1. Importancia del Monitoreo de Presiones</h3>
+                <p>El monitoreo continuo de las presiones en la ventilación mecánica es esencial para:</p>
+                <ul>
+                    <li><strong>Seguridad del Paciente:</strong> Detectar presiones excesivamente altas que puedan causar barotrauma o volutrauma.</li>
+                    <li><strong>Optimización de la Ventilación:</strong> Ajustar los parámetros del ventilador para maximizar la eficiencia respiratoria.</li>
+                    <li><strong>Diagnóstico:</strong> Identificar cambios en la mecánica respiratoria que puedan indicar mejoría o deterioro de la condición del paciente.</li>
+                    <li><strong>Prevención de Complicaciones:</strong> Evitar la lesión pulmonar inducida por el ventilador (VILI).</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>4.2. Valores de Referencia y Límites de Seguridad</h3>
+                <p>Aunque los valores específicos pueden variar según el paciente y la patología, existen rangos generales de referencia:</p>
+                <ul>
+                    <li><strong>PEEP:</strong> Típicamente entre 5-15 cm H₂O, ajustado según las necesidades de oxigenación.</li>
+                    <li><strong>Presión Meseta:</strong> Generalmente mantenida por debajo de 30 cm H₂O para prevenir lesión pulmonar.</li>
+                    <li><strong>Presión Inspiratoria Pico:</strong> Idealmente menos de 35-40 cm H₂O, aunque puede ser mayor si la resistencia de las vías aéreas está elevada.</li>
+                    <li><strong>Diferencia PIP-P<sub>plat</sub>:</strong> Normalmente menos de 10-15 cm H₂O; valores mayores sugieren alta resistencia de las vías aéreas.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="glossary" aria-labelledby="glossary-title">
+            <h2 id="glossary-title">5. Glosario de Términos Clave</h2>
+            <div class="card">
+                <dl>
+                    <dt>Auto-PEEP</dt>
+                    <dd>Presión positiva no intencionada al final de la espiración causada por atrapamiento aéreo cuando el tiempo espiratorio es insuficiente.</dd>
+                    
+                    <dt>Barotrauma</dt>
+                    <dd>Lesión pulmonar causada por presiones excesivamente altas durante la ventilación mecánica.</dd>
+                    
+                    <dt>Capacidad Residual Funcional (CRF)</dt>
+                    <dd>El volumen de aire que permanece en los pulmones después de una espiración normal y pasiva.</dd>
+                    
+                    <dt>Compliance (Distensibilidad)</dt>
+                    <dd>La medida de la facilidad con que los pulmones y la pared torácica pueden expandirse. Se calcula como el cambio de volumen dividido por el cambio de presión.</dd>
+                    
+                    <dt>Esfuerzo de Asistencia</dt>
+                    <dd>Una pequeña deflexión de presión negativa creada por los músculos inspiratorios del paciente, que dispara al ventilador para entregar una respiración.</dd>
+                    
+                    <dt>Manómetro</dt>
+                    <dd>Un dispositivo de medición utilizado para determinar las presiones en el circuito del ventilador.</dd>
+                    
+                    <dt>PEEP (Presión Positiva al Final de la Espiración)</dt>
+                    <dd>Una presión basal establecida intencionalmente por encima de la presión atmosférica para mantener los alvéolos abiertos al final de la espiración.</dd>
+                    
+                    <dt>Presión Alveolar (P<sub>alv</sub>)</dt>
+                    <dd>La presión dentro de los alvéolos. También llamada presión intrapulmonar. Se aproxima estrechamente por la Presión Meseta durante una pausa inspiratoria.</dd>
+                    
+                    <dt>Presión Basal</dt>
+                    <dd>La presión en el circuito del ventilador al final de la espiración, antes del inicio de la siguiente inspiración.</dd>
+                    
+                    <dt>Presión Inspiratoria Pico (PIP)</dt>
+                    <dd>La presión máxima alcanzada en la vía aérea durante la inspiración. Refleja tanto la resistencia de las vías aéreas como la distensibilidad del sistema respiratorio.</dd>
+                    
+                    <dt>Presión Intrapleural</dt>
+                    <dd>La presión dentro del espacio potencial entre las dos capas de la pleura que rodean los pulmones. Normalmente es negativa durante la respiración espontánea.</dd>
+                    
+                    <dt>Presión Meseta (P<sub>plat</sub>)</dt>
+                    <dd>La presión medida durante una pausa inspiratoria (sin flujo de aire). Refleja la distensibilidad del sistema respiratorio y se aproxima a la presión alveolar.</dd>
+                    
+                    <dt>Presión Transaérea (P<sub>TA</sub>)</dt>
+                    <dd>La diferencia de presión entre la apertura de la vía aérea y los alvéolos (P<sub>awo</sub> − P<sub>alv</sub>). Representa la presión necesaria para superar la resistencia de la vía aérea.</dd>
+                    
+                    <dt>Resistencia de la Vía Aérea</dt>
+                    <dd>La oposición al flujo de aire, localizada principalmente en las vías aéreas de conducción (tráquea, bronquios, bronquiolos).</dd>
+                    
+                    <dt>Trigger (Disparo)</dt>
+                    <dd>El mecanismo que inicia una respiración mecánica, puede ser activado por tiempo, presión, flujo o esfuerzo del paciente.</dd>
+                    
+                    <dt>Ventilación de Alta Frecuencia (VAF)</dt>
+                    <dd>Un modo especializado de ventilación que utiliza frecuencias respiratorias muy altas y volúmenes tidales pequeños.</dd>
+                    
+                    <dt>Ventilación con Presión Negativa (VPN)</dt>
+                    <dd>Un modo de ventilación que aplica presión subatmosférica al exterior del tórax para generar la inspiración.</dd>
+                    
+                    <dt>Ventilación con Presión Positiva (VPP)</dt>
+                    <dd>Un modo de ventilación que entrega gas con presión positiva directamente a las vías respiratorias.</dd>
+                    
+                    <dt>VILI (Lesión Pulmonar Inducida por Ventilador)</dt>
+                    <dd>Daño pulmonar causado por parámetros inapropiados de ventilación mecánica, incluyendo barotrauma, volutrauma y biotrauma.</dd>
+                    
+                    <dt>Volumen Tidal (V<sub>T</sub>)</dt>
+                    <dd>El volumen de gas entregado con cada respiración. También llamado Volumen Corriente.</dd>
+                    
+                    <dt>Volutrauma</dt>
+                    <dd>Lesión pulmonar causada por volúmenes excesivamente grandes durante la ventilación mecánica.</dd>
+                </dl>
+            </div>
+        </section>
+
+        <section id="summary" aria-labelledby="summary-title">
+            <h2 id="summary-title">6. Resumen y Puntos Clave</h2>
+            <div class="card">
+                <h3>Conceptos Fundamentales</h3>
+                <ul>
+                    <li>La <strong>ventilación mecánica</strong> puede realizarse mediante tres métodos principales: presión negativa, presión positiva y alta frecuencia.</li>
+                    <li>La <strong>VPP es el método más utilizado</strong> en la práctica clínica moderna debido a su versatilidad y eficacia.</li>
+                    <li>El <strong>monitoreo de presiones</strong> es esencial para la seguridad del paciente y la optimización de la ventilación.</li>
+                    <li>La <strong>diferencia entre PIP y P<sub>plat</sub></strong> proporciona información valiosa sobre la resistencia de las vías aéreas.</li>
+                    <li>El <strong>PEEP</strong> es una herramienta importante para mantener la oxigenación y prevenir el colapso alveolar.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Elementos del DOM
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const steps = document.querySelectorAll('.flow-step');
+            const stepIndicator = document.getElementById('step-indicator');
+            const progressFill = document.getElementById('progress-fill');
+            
+            // Variables de estado
+            let currentStep = 0;
+            const totalSteps = steps.length;
+
+            /**
+             * Actualiza la visualización del flujo interactivo
+             * Maneja la visibilidad de los pasos, botones y barra de progreso
+             */
+            function updateFlow() {
+                // Actualizar visibilidad de los pasos
+                steps.forEach((step, index) => {
+                    if (index === currentStep) {
+                        step.classList.add('active');
+                        step.setAttribute('aria-hidden', 'false');
+                    } else {
+                        step.classList.remove('active');
+                        step.setAttribute('aria-hidden', 'true');
+                    }
+                });
+
+                // Actualizar indicador de paso
+                stepIndicator.textContent = `Paso ${currentStep + 1} de ${totalSteps}`;
+
+                // Actualizar barra de progreso
+                const progressPercentage = ((currentStep + 1) / totalSteps) * 100;
+                progressFill.style.width = `${progressPercentage}%`;
+
+                // Actualizar estado de los botones
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.disabled = currentStep === totalSteps - 1;
+
+                // Actualizar texto de los botones para mayor claridad
+                if (currentStep === totalSteps - 1) {
+                    nextBtn.textContent = 'Finalizado';
+                } else {
+                    nextBtn.textContent = 'Siguiente';
+                }
+
+                if (currentStep === 0) {
+                    prevBtn.textContent = 'Inicio';
+                } else {
+                    prevBtn.textContent = 'Anterior';
+                }
+
+                // Anunciar el cambio para lectores de pantalla
+                const currentStepTitle = steps[currentStep].querySelector('h4').textContent;
+                stepIndicator.setAttribute('aria-label', `${currentStepTitle}, paso ${currentStep + 1} de ${totalSteps}`);
+            }
+
+            /**
+             * Avanza al siguiente paso
+             */
+            function nextStep() {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateFlow();
+                    
+                    // Scroll suave al contenido del paso para mejorar UX
+                    steps[currentStep].scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            }
+
+            /**
+             * Retrocede al paso anterior
+             */
+            function prevStep() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateFlow();
+                    
+                    // Scroll suave al contenido del paso
+                    steps[currentStep].scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            }
+
+            // Event listeners para los botones
+            nextBtn.addEventListener('click', nextStep);
+            prevBtn.addEventListener('click', prevStep);
+
+            // Soporte para navegación con teclado
+            document.addEventListener('keydown', function(event) {
+                // Solo aplicar si el foco está en el área del flujo interactivo
+                const interactiveFlow = document.getElementById('interactive-flow');
+                if (interactiveFlow.contains(document.activeElement)) {
+                    switch(event.key) {
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                            event.preventDefault();
+                            nextStep();
+                            break;
+                        case 'ArrowLeft':
+                        case 'ArrowUp':
+                            event.preventDefault();
+                            prevStep();
+                            break;
+                        case 'Home':
+                            event.preventDefault();
+                            currentStep = 0;
+                            updateFlow();
+                            break;
+                        case 'End':
+                            event.preventDefault();
+                            currentStep = totalSteps - 1;
+                            updateFlow();
+                            break;
+                    }
+                }
+            });
+
+            // Inicializar la vista
+            updateFlow();
+
+            // Mejorar la accesibilidad de los acordeones
+            const detailsElements = document.querySelectorAll('details');
+            detailsElements.forEach(details => {
+                const summary = details.querySelector('summary');
+                
+                // Agregar indicadores de estado para lectores de pantalla
+                summary.addEventListener('click', function() {
+                    setTimeout(() => {
+                        const isOpen = details.hasAttribute('open');
+                        summary.setAttribute('aria-expanded', isOpen);
+                    }, 10);
+                });
+
+                // Establecer estado inicial
+                summary.setAttribute('aria-expanded', details.hasAttribute('open'));
+            });
+
+            // Smooth scroll para enlaces internos (si los hubiera)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Indicador de carga completada
+            document.body.classList.add('loaded');
+        });
+
+        // Manejo de errores de JavaScript
+        window.addEventListener('error', function(event) {
+            console.error('Error en la aplicación:', event.error);
+        });
+    </script>
+</body>
+</html>
+                <p>El propósito principal de este material es introducir y diferenciar los tres métodos fundamentales de ventilación mecánica: <strong>Ventilación con Presión Negativa (VPN)</strong>, <strong>Ventilación con Presión Positiva (VPP)</strong> y <strong>Ventilación de Alta Frecuencia (VAF)</strong>.</p>
+                <p>Además, proporciona una definición y explicación detallada de las variables de presión y las formas de onda específicas que son esenciales para manejar a los pacientes en Ventilación con Presión Positiva, la forma más común de soporte mecánico. El objetivo es construir una comprensión fundamental de cómo funcionan los ventiladores y cómo los clínicos miden e interpretan la mecánica respiratoria.</p>
+            </div>
+        </section>
+
+        <section id="ventilation-types" aria-labelledby="ventilation-types-title">
+            <h2 id="ventilation-types-title">2. Tipos de Ventilación Mecánica</h2>
+            <p>El texto identifica tres métodos básicos desarrollados para imitar o reemplazar los mecanismos naturales de la respiración. La elección del método depende del escenario clínico, la enfermedad subyacente del paciente y los objetivos de la ventilación.</p>
+            
+            <details>
+                <summary>2.1. Ventilación con Presión Negativa (VPN)</summary>
+                <div class="details-content">
+                    <p>La Ventilación con Presión Negativa es un método que imita más fielmente la fisiología de la respiración normal y espontánea.</p>
+                    
+                    <h4>Mecanismo de Acción:</h4>
+                    <p>En lugar de empujar aire hacia los pulmones, la VPN crea una presión negativa (subatmosférica) en una cámara que rodea el tórax y el abdomen del paciente. La cabeza y el cuello del paciente permanecen fuera de la cámara, expuestos a la presión atmosférica normal. Esta presión negativa externa se transmite a través de la pared torácica, haciendo que el espacio intrapleural se vuelva más negativo. Esto, a su vez, hace que la presión dentro de los alvéolos se vuelva negativa en relación con la apertura de la vía aérea (la boca). Este gradiente de presión provoca que el aire fluya hacia los pulmones. La espiración es pasiva y ocurre cuando se elimina la presión negativa y el retroceso elástico natural de los pulmones y la pared torácica expulsa el aire.</p>
+                    
+                    <h4>Ejemplos Históricos:</h4>
+                    <p>El ejemplo más famoso es el ventilador de tanque, comúnmente conocido como el <em>"pulmón de acero"</em>. Otras formas más modernas o portátiles incluyen el coraza torácica (chest cuirass), el Poncho wrap y el Porta-Lung.</p>
+                    
+                    <h4>Ventajas:</h4>
+                    <ul>
+                        <li>No requiere una vía aérea artificial (como un tubo endotraqueal o una traqueotomía), permitiendo al paciente hablar y comer mientras está ventilado.</li>
+                        <li>Tiene menos efectos fisiológicos adversos en pacientes con función cardiovascular normal en comparación con la VPP.</li>
+                    </ul>
+                    
+                    <h4>Desventajas:</h4>
+                    <ul>
+                        <li><strong>Efectos Cardiovasculares:</strong> En pacientes hipovolémicos (con bajo volumen sanguíneo), puede causar un estancamiento significativo de sangre en los vasos abdominales, lo que reduce el retorno venoso al corazón.</li>
+                        <li><strong>Problemas de Acceso:</strong> Dificulta enormemente el cuidado del paciente, como el baño y los cambios de posición.</li>
+                    </ul>
+                    
+                    <h4>Uso Clínico:</h4>
+                    <p>El uso de la VPN disminuyó drásticamente a principios de la década de 1980 y ahora rara vez se utiliza en hospitales. Ha sido reemplazada en gran medida por la ventilación con presión positiva no invasiva (VNI).</p>
+                    
+                    <div class="analysis-block">
+                        <h4>Análisis de la Mecánica de la VPN (Fig. 1.7)</h4>
+                        <p>El diagrama y el gráfico proporcionados ilustran los cambios de presión durante la VPN:</p>
+                        <ul>
+                            <li><strong>Inspiración:</strong> El ventilador crea una presión negativa alrededor del tórax. Esto hace que la presión intrapleural (línea continua) descienda de aproximadamente -5 cm H₂O a -10 cm H₂O. En consecuencia, la presión intrapulmonar (alveolar) (línea discontinua) desciende de 0 a aproximadamente -5 cm H₂O, creando el gradiente que introduce el aire.</li>
+                            <li><strong>Espiración:</strong> El ventilador deja de aplicar la presión negativa. La pared torácica y los pulmones retroceden, haciendo que la presión intrapleural vuelva a -5 cm H₂O y que la presión intrapulmonar se vuelva brevemente positiva (alrededor de +5 cm H₂O), forzando la salida del aire hasta que se iguala con la presión atmosférica (0 cm H₂O).</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>2.2. Ventilación con Presión Positiva (VPP)</summary>
+                <div class="details-content">
+                    <p>La Ventilación con Presión Positiva es la forma más común de ventilación mecánica utilizada en la actualidad. Funciona entregando activamente aire a los pulmones del paciente.</p>
+                    
+                    <h4>Mecanismo de Acción:</h4>
+                    <p>La VPP se inicia cuando un ventilador mecánico genera una presión en la apertura de la vía aérea del paciente (boca o vía aérea artificial) que es mayor que la presión en los alvéolos. Este gradiente de presión positiva fuerza el flujo de gas hacia los pulmones, haciendo que se expandan. Durante la inspiración, tanto la presión alveolar como la presión intrapleural se vuelven positivas. La espiración sigue siendo un proceso pasivo, iniciado cuando el ventilador deja de entregar la respiración de presión positiva, permitiendo que los pulmones y la pared torácica retrocedan.</p>
+                    
+                    <h4>Interfaz:</h4>
+                    <p>La VPP puede ser administrada de forma invasiva a través de un tubo endotraqueal o una traqueotomía, o de forma no invasiva (VNI) utilizando una mascarilla facial o un dispositivo nasal.</p>
+                    
+                    <div class="analysis-block">
+                        <h4>Análisis de la Mecánica de la VPP (Fig. 1.8)</h4>
+                        <p>Este diagrama ilustra la dinámica de presiones de la VPP:</p>
+                        <ul>
+                            <li><strong>Inspiración:</strong> El ventilador entrega una respiración con presión positiva (por ejemplo, +15 cm H₂O) a la vía aérea. Esto supera la resistencia de la vía aérea y la elastancia pulmonar, haciendo que la presión intrapulmonar (alveolar) (línea discontinua) aumente de 0 a un pico de +9 a +12 cm H₂O. La presión intrapleural (línea continua), que normalmente es negativa, es empujada al rango positivo, aumentando de -5 cm H₂O a aproximadamente +5 cm H₂O.</li>
+                            <li><strong>Espiración:</strong> El ventilador se cicla a espiración. La presión en la apertura de la vía aérea vuelve a la atmosférica (0 cm H₂O). La presión positiva almacenada en los pulmones elásticos ahora crea un gradiente, forzando la salida del aire hasta que la presión alveolar vuelve a cero. La presión intrapleural regresa a su estado de reposo negativo.</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+            
+            <details>
+                <summary>2.3. Ventilación de Alta Frecuencia (VAF)</summary>
+                <div class="details-content">
+                    <p>Esta es una forma especializada de ventilación caracterizada por frecuencias respiratorias muy por encima de lo normal y volúmenes tidales (el volumen de cada respiración) que a menudo son menores que el volumen del espacio muerto anatómico del paciente.</p>
+                    
+                    <h4>Ventilación Jet de Alta Frecuencia (VAFJ):</h4>
+                    <p>Entrega chorros presurizados de gas a través de un tubo estrecho o inyector dentro del tubo endotraqueal a frecuencias de 4 a 10 Hz (240 a 600 respiraciones/min). La espiración es pasiva.</p>
+                    
+                    <h4>Ventilación Oscilatoria de Alta Frecuencia (VOAF):</h4>
+                    <p>Utiliza un pistón o diafragma para crear un movimiento de "vaivén", empujando activamente el gas hacia adentro durante la inspiración y sacándolo durante la espiración. Se utiliza a menudo en lactantes con dificultad respiratoria grave o en adultos con fugas de aire como una fístula broncopleural.</p>
+                    
+                    <h4>Ventilación Percusiva de Alta Frecuencia (VPAF):</h4>
+                    <p>Combina pulsos de alta frecuencia (100 a 900 ciclos/seg) superpuestos sobre respiraciones de presión positiva convencionales (5 a 30 ciclos/min). Puede usarse como un modo continuo de ventilación o como un dispositivo terapéutico de limpieza de las vías respiratorias para movilizar secreciones.</p>
+                </div>
+            </details>
+        </section>
+
+        <section id="pressure-definitions" aria-labelledby="pressure-definitions-title">
+            <h2 id="pressure-definitions-title">3. Definición de Presiones en la VPP</h2>
+            <p>La medición precisa de la presión mediante un manómetro (medidor de presión) es fundamental para manejar de forma segura y eficaz a un paciente en VPP. A continuación se presentan las presiones clave que se monitorizan durante una respiración mecánica.</p>
+            
+            <h3>La Forma de Onda de Presión del Ventilador: Un Flujo Interactivo</h3>
+            <p>El gráfico de la presión de la vía aérea a lo largo del tiempo revela los eventos clave de una respiración con presión positiva. Usa los botones para navegar paso a paso.</p>
+            
+            <div id="interactive-flow" role="region" aria-labelledby="interactive-flow-title" aria-live="polite">
+                <h4 id="interactive-flow-title" class="sr-only">Simulador Interactivo de Forma de Onda de Presión</h4>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                
+                <div id="step1" class="flow-step active">
+                    <h4>Paso 1: Presión Basal</h4>
+                    <p>Es la presión de inicio y fin de cada ciclo respiratorio. Puede ser cero (presión atmosférica) o un valor positivo (PEEP) para mantener los alvéolos abiertos. Esta presión constituye la línea de referencia desde la cual se miden todas las demás presiones durante el ciclo respiratorio.</p>
+                </div>
+                
+                <div id="step2" class="flow-step">
+                    <h4>Paso 2: Disparo Inspiratorio (Trigger)</h4>
+                    <p>La respiración se inicia cuando se detecta la señal de disparo. Puede ser disparada por la máquina (a un tiempo programado) o por el propio esfuerzo del paciente. Un "esfuerzo de asistencia" se observa como una pequeña caída de presión por debajo de la línea de base, indicando que el paciente "solicitó" la respiración de forma activa.</p>
+                </div>
+                
+                <div id="step3" class="flow-step">
+                    <h4>Paso 3: Fase Inspiratoria</h4>
+                    <p>La presión en la vía aérea aumenta progresivamente a medida que el ventilador entrega activamente el volumen de aire programado a los pulmones del paciente. Durante esta fase, el gas fluye desde el ventilador hacia los alvéolos, superando la resistencia de las vías aéreas.</p>
+                </div>
+                
+                <div id="step4" class="flow-step">
+                    <h4>Paso 4: Presión Inspiratoria Pico (PIP)</h4>
+                    <p>Es la presión máxima alcanzada durante la fase inspiratoria. Esta presión es necesaria para superar tanto la resistencia de las vías aéreas como la elasticidad de los pulmones y el tórax. La PIP refleja la suma de las presiones necesarias para vencer la resistencia al flujo y distender el sistema respiratorio.</p>
+                </div>
+                
+                <div id="step5" class="flow-step">
+                    <h4>Paso 5: Pausa Inspiratoria / Meseta</h4>
+                    <p>Se realiza una breve pausa (0.5-1.5 segundos) donde no hay flujo de aire. Durante esta pausa, la presión cae desde la PIP a un nivel estable llamado Presión Meseta (P<sub>plat</sub>), que refleja la presión real dentro de los alvéolos sin el componente de resistencia de las vías aéreas.</p>
+                </div>
+                
+                <div id="step6" class="flow-step">
+                    <h4>Paso 6: Fase Espiratoria</h4>
+                    <p>El ventilador permite la espiración pasiva. La energía elástica almacenada en los pulmones y el tórax expulsa el aire de forma natural, y la presión en la vía aérea desciende gradualmente hasta retornar al nivel basal (PEEP o presión atmosférica), completando así el ciclo respiratorio.</p>
+                </div>
+                
+                <div id="flow-navigation" role="group" aria-label="Navegación del simulador">
+                    <button id="prevBtn" type="button" aria-label="Paso anterior" disabled>Anterior</button>
+                    <div id="step-indicator" aria-live="polite">Paso 1 de 6</div>
+                    <button id="nextBtn" type="button" aria-label="Siguiente paso">Siguiente</button>
+                </div>
+            </div>
+
+            <div class="card">

@@ -1,93 +1,178 @@
-/* Estilos Generales y Variables */
+/* Estilos Generales */
 :root {
-    --primary-color: #2d3142;
-    --secondary-color: #4f5d75;
-    --accent-color: #bfc0c0;
-    --highlight-color: #ef8354;
-    --bg-color: #f7f7f7;
-    --card-bg: #ffffff;
+    --primary-color: #007acc;
+    --secondary-color: #eaf5ff;
+    --text-color: #333;
+    --bg-color: #f4f7f9;
+    --border-color: #e0e0e0;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
 }
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
     background-color: var(--bg-color);
-    color: var(--primary-color);
-    line-height: 1.7;
-}
-
-/* Contenedor y Encabezado */
-.container {
-    max-width: 850px;
-    margin: 2rem auto;
-    padding: 2rem;
-}
-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-}
-h1 {
-    font-size: 2.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-/* Contenedor del Acordeón */
-.accordion-container {
+    margin: 0;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-}
-.accordion-item {
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    transition: margin 0.3s ease;
-}
-.accordion-item[open] {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.accordion-item[open] summary {
-    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
 }
 
-/* Encabezado del Acordeón (summary) */
-summary {
+header, main, footer {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+}
+
+h1 { font-size: 2.2em; }
+h2 { font-size: 1.8em; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 20px;}
+
+/* Secciones de Contenido */
+.content-section {
+    display: none; /* Ocultar todas las secciones por defecto */
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.content-section.active {
+    display: block; /* Mostrar solo la sección activa */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Elementos Interactivos */
+textarea {
+    width: 95%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+.feedback {
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.feedback.correct {
+    background-color: #e9f7ef;
+    color: var(--success-color);
+    border-left: 5px solid var(--success-color);
+}
+
+.feedback.incorrect {
+    background-color: #fceeee;
+    color: var(--danger-color);
+    border-left: 5px solid var(--danger-color);
+}
+
+.hidden-content {
+    display: none;
+    background-color: var(--light-color);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+    border: 1px dashed var(--secondary-color);
+}
+
+.mcq-option {
+    margin: 0.5rem 0;
+    display: block;
+}
+
+.metacognition-slider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.metacognition-slider input[type="range"] {
+    flex-grow: 1;
+}
+
+.metacognition-slider span {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+
+/* Navegación y Botones */
+.page-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 1.5rem;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
     cursor: pointer;
-    list-style: none; /* Elimina el marcador por defecto */
-}
-summary::-webkit-details-marker {
-    display: none; /* Elimina el marcador en Safari */
+    font-size: 1em;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Contenido del Acordeón */
-.accordion-content {
-    padding: 1.5rem;
-    border-top: 1px solid transparent; /* Evita saltos de layout */
+button:hover:not(:disabled) {
+    background-color: #005a9e;
+    transform: translateY(-2px);
 }
-ul { padding-left: 20px; }
-li { margin-bottom: 0.5rem; }
 
-/* Icono de Flecha (Chevron) */
-.chevron {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-style: solid;
-    border-color: var(--highlight-color);
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-    transition: transform 0.3s ease-in-out;
+button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
 }
-.accordion-item[open] .chevron {
-    transform: rotate(-135deg);
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    color: #777;
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+    .page-nav {
+        flex-direction: column;
+    }
+    .page-nav button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .page-nav span {
+        margin: 10px 0;
+    }
 }

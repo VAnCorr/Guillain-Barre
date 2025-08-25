@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Constante de Tiempo Respiratoria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET Y CONFIGURACIÓN GLOBAL --- */
+        :root {
+            --color-primario: #17a2b8; /* Cyan */
+            --color-secundario: #ffc107; /* Amarillo */
+            --color-acento: #dc3545; /* Rojo */
+            --color-exito: #28a745; /* Verde */
+            --color-fondo: #f4f7f6;
+            --color-texto: #343a40;
+            --color-fondo-tarjeta: #ffffff;
+            --color-borde: #e9ecef;
+            --borde-radio: 12px;
+            --sombra-caja: 0 6px 20px rgba(0,0,0,0.1);
+            --sombra-hover: 0 8px 25px rgba(0,0,0,0.15);
+            --transicion-suave: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            background: linear-gradient(135deg, var(--color-fondo) 0%, #e8f4f3 100%);
+            color: var(--color-texto);
+            font-size: 17px;
+            min-height: 100vh;
+        }
+
+        /* --- CONTENEDORES Y ESTRUCTURA --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--color-primario), #0f7988);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: var(--borde-radio);
+            margin-bottom: 2rem;
+            box-shadow: var(--sombra-caja);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: subtle-pulse 6s ease-in-out infinite;
+        }
+
+        @keyframes subtle-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.1; }
+        }
+
+        header h1 {
+            font-family: 'Titillium Web', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        main > section {
+            background-color: var(--color-fondo-tarjeta);
+            margin-bottom: 2rem;
+            padding: 2.5rem;
+            border-radius: var(--borde-radio);
+            box-shadow: var(--sombra-caja);
+            transition: var(--transicion-suave);
+            border: 1px solid var(--color-borde);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        main > section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primario), var(--color-secundario));
+        }
+        
+        main > section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-hover);
+        }
+
+        h2 {
+            font-family: 'Titillium Web', sans-serif;
+            font-size: 2.2rem;
+            color: var(--color-primario);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--color-secundario);
+            padding-bottom: 0.5rem;
+            position: relative;
+        }
+
+        h3 {
+            font-family: 'Titillium Web', sans-serif;
+            font-size: 1.6rem;
+            color: var(--color-texto);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: var(--color-primario);
+            border-radius: 2px;
+        }
+        
+        p { 
+            margin-bottom: 1rem; 
+            text-align: justify;
+        }
+        
+        strong { 
+            color: var(--color-primario); 
+            font-weight: 600;
+        }
+        
+        sub { font-size: 0.8em; }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        /* --- COMPONENTES INTERACTIVOS GENERALES --- */
+        .boton-interactivo {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-primario), #0f8fa0);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: var(--borde-radio);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transicion-suave);
+            margin: 5px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+        }
+
+        .boton-interactivo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .boton-interactivo:hover::before {
+            left: 100%;
+        }
+
+        .boton-interactivo:hover {
+            background: linear-gradient(135deg, #0f8fa0, var(--color-primario));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(23, 162, 184, 0.4);
+        }
+
+        .boton-interactivo:active {
+            transform: translateY(-1px);
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            border: 2px solid var(--color-primario);
+            border-left: 8px solid var(--color-primario);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: var(--borde-radio);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.8rem;
+            text-align: center;
+            font-weight: bold;
+            color: var(--color-primario);
+            box-shadow: var(--sombra-caja);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .formula-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: var(--color-secundario);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(25px, -25px);
+        }
+
+        /* --- SECCIÓN 3: DINÁMICA EXPONENCIAL --- */
+        #dinamica-exponencial {
+            text-align: center;
+        }
+
+        #chart-container {
+            width: 100%;
+            height: 80px;
+            background-color: #e9ecef;
+            border-radius: var(--borde-radio);
+            margin: 1.5rem 0;
+            overflow: hidden;
+            border: 2px solid var(--color-borde);
+            position: relative;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        #fill-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-secundario), #ffda6b, var(--color-primario));
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        #fill-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 25%, 
+                rgba(255,255,255,0.1) 25%, 
+                rgba(255,255,255,0.1) 50%, 
+                transparent 50%, 
+                transparent 75%, 
+                rgba(255,255,255,0.1) 75%);
+            background-size: 20px 20px;
+            animation: progress-animation 2s linear infinite;
+        }
+
+        @keyframes progress-animation {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+
+        #percentage-label {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--color-primario);
+            margin-top: 1.5rem;
+            min-height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transicion-suave);
+        }
+        
+        .unidades-pulmonares {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 2rem;
+        }
+
+        .unidad {
+            padding: 2rem;
+            border: 2px solid var(--color-borde);
+            border-radius: var(--borde-radio);
+            transition: var(--transicion-suave);
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unidad::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--color-secundario);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .unidad:hover::before {
+            transform: scaleX(1);
+        }
+
+        .unidad:hover {
+            border-color: var(--color-primario);
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-hover);
+        }
+
+        .unidad h4 { 
+            color: var(--color-primario); 
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* --- SECCIÓN 4: CALCULADORA CLÍNICA --- */
+        #calculadora-clinica {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .controles-calculadora, .resultados-calculadora {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 2rem;
+            border-radius: var(--borde-radio);
+            border: 1px solid var(--color-borde);
+        }
+
+        .controles-calculadora h3, .resultados-calculadora h3 {
+            margin-top: 0;
+            color: var(--color-primario);
+            border-bottom: 2px solid var(--color-secundario);
+            padding-bottom: 0.5rem;
+        }
+
+        .control-grupo { 
+            margin-bottom: 2rem; 
+            position: relative;
+        }
+
+        .control-grupo label { 
+            display: block; 
+            margin-bottom: 1rem; 
+            font-weight: 600;
+            color: var(--color-texto);
+            font-size: 1.1rem;
+        }
+
+        .control-grupo input[type="range"] { 
+            width: 100%; 
+            height: 8px;
+            border-radius: 4px;
+            background: var(--color-borde);
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+            transition: var(--transicion-suave);
+        }
+
+        .control-grupo input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primario), #0f8fa0);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(23, 162, 184, 0.3);
+            transition: var(--transicion-suave);
+        }
+
+        .control-grupo input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.5);
+        }
+
+        .control-grupo input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primario), #0f8fa0);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgba(23, 162, 184, 0.3);
+        }
+
+        .control-grupo span { 
+            font-weight: bold; 
+            color: var(--color-primario);
+            font-size: 1.1rem;
+        }
+
+        .valor-unidades {
+            font-style: italic;
+            color: var(--color-texto);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .resultado-item {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #e9f7f9, #f0fbfc);
+            border-radius: var(--borde-radio);
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--color-primario);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: var(--transicion-suave);
+        }
+
+        .resultado-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .resultado-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .resultado-valor {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--color-primario);
+        }
+
+        #breath-cycle-viz {
+            display: flex;
+            height: 60px;
+            border-radius: var(--borde-radio);
+            overflow: hidden;
+            margin-top: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            box-shadow: var(--sombra-caja);
+            position: relative;
+        }
+
+        #inspiration-bar, #expiration-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: flex-grow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #inspiration-bar { 
+            background: linear-gradient(135deg, var(--color-primario), #0f8fa0);
+        }
+
+        #expiration-bar { 
+            background: linear-gradient(135deg, var(--color-secundario), #ffda6b);
+            color: var(--color-texto);
+        }
+
+        #inspiration-bar::before, #expiration-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: breathing-animation 3s ease-in-out infinite;
+        }
+
+        @keyframes breathing-animation {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
+        }
+
+        #warning-air-trapping { 
+            color: var(--color-acento); 
+            font-weight: bold; 
+            margin-top: 1.5rem; 
+            display: none;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f8d7da, #f5c2c7);
+            border-radius: var(--borde-radio);
+            border-left: 5px solid var(--color-acento);
+            animation: warning-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes warning-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* --- SECCIÓN 5: DEFINICIONES --- */
+        .lista-definiciones { 
+            list-style: none; 
+            padding: 0; 
+        }
+
+        .termino-clave {
+            display: block;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: var(--borde-radio);
+            border: 1px solid var(--color-borde);
+            cursor: help;
+            position: relative;
+            transition: var(--transicion-suave);
+            overflow: hidden;
+        }
+
+        .termino-clave::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--color-primario);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s ease;
+        }
+
+        .termino-clave:hover::before {
+            transform: scaleY(1);
+        }
+
+        .termino-clave:hover {
+            transform: translateX(10px);
+            box-shadow: var(--sombra-hover);
+            border-color: var(--color-primario);
+        }
+
+        /* --- SECCIÓN 6: ANALOGÍA --- */
+        #analogia-contenedor { 
+            text-align: center; 
+        }
+
+        #analogia-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 400px;
+            width: 100%;
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            border-radius: var(--borde-radio);
+            padding: 30px;
+            margin-top: 2rem;
+            gap: 30px;
+            box-shadow: var(--sombra-caja);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #analogia-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(23, 162, 184, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .sistema-analogia {
+            width: 45%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sistema-analogia h4 {
+            margin-bottom: 1rem;
+            color: var(--color-primario);
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .manguera {
+            height: 60px;
+            background: linear-gradient(135deg, #778899, #5a6c7d);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .manguera::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 20%;
+            background: #4a5568;
+            border-radius: 10px;
+        }
+
+        .cubeta {
+            width: 100%;
+            height: 250px;
+            border: 6px solid #6c757d;
+            border-top: none;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 0 0 var(--borde-radio) var(--borde-radio);
+        }
+
+        .agua {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, var(--color-primario), #0f8fa0);
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .agua::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.3) 0%, 
+                rgba(255,255,255,0.1) 50%, 
+                rgba(255,255,255,0.3) 100%);
+            animation: water-surface 3s ease-in-out infinite;
+        }
+
+        @keyframes water-surface {
+            0%, 100% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+        }
+
+        #sistema-a .manguera { width: 80%; }
+        #sistema-a .cubeta { max-width: 180px; }
+        #sistema-b .manguera { width: 30%; }
+        #sistema-b .cubeta { max-width: 280px; }
+
+        /* Animaciones específicas para la analogía */
+        #sistema-a .agua.llenando { 
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        #sistema-b .agua.llenando { 
+            transition: height 5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--color-primario), #0f7988);
+            color: white;
+            border-radius: var(--borde-radio);
+            box-shadow: var(--sombra-caja);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            
+            header {
+                padding: 30px 20px;
+            }
+            
+            header h1 { 
+                font-size: 2.5rem; 
+            }
+            
+            h2 { 
+                font-size: 1.8rem; 
+            }
+            
+            main > section { 
+                padding: 1.5rem; 
+            }
+            
+            .unidades-pulmonares, 
+            #calculadora-clinica { 
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            #analogia-visual {
+                flex-direction: column;
+                height: auto;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .sistema-analogia {
+                width: 100%;
+                height: 300px;
+            }
+
+            .formula-box {
+                font-size: 1.4rem;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { 
+                font-size: 2rem; 
+            }
+            
+            .boton-interactivo {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                margin: 3px;
+            }
+
+            #percentage-label {
+                font-size: 1.8rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>La Constante de Tiempo Respiratoria</h1>
+        <p>Entendiendo la dinámica de llenado y vaciado pulmonar en ventilación mecánica.</p>
+    </header>
+
+    <main class="container">
+
+        <section id="resumen">
+            <h2>1. Resumen Ejecutivo (TL;DR)</h2>
+            <p>La <strong>Constante de Tiempo (TC)</strong> es un concepto fundamental en la mecánica respiratoria que se calcula multiplicando la <strong>Distensibilidad (C)</strong> por la <strong>Resistencia (R<sub>aw</sub>)</strong>. Este valor, medido en segundos, determina la velocidad a la que una unidad pulmonar se llena o se vacía. El proceso es exponencial: se necesitan aproximadamente de 3 a 5 constantes de tiempo para lograr un llenado o vaciado casi completo (95% a 99.3%), un principio clave que los clínicos utilizan para configurar tiempos inspiratorios y espiratorios adecuados en la ventilación mecánica y evitar complicaciones como el atrapamiento aéreo.</p>
+        </section>
+
+        <section id="concepto-central">
+            <h2>2. Concepto Central y Propósito</h2>
+            <p>El concepto central es la <strong>dinámica temporal</strong> de la ventilación pulmonar. Mientras que la distensibilidad y la resistencia describen las propiedades estáticas y de fricción del pulmón, la constante de tiempo integra ambas para responder a la pregunta: <em>"¿Cuánto tiempo necesita este pulmón para llenarse y vaciarse?"</em></p>
+            <p>El propósito de este modelo es proporcionar una base cuantitativa para:</p>
+            <ul>
+                <li><strong>Entender la heterogeneidad pulmonar:</strong> Explicar por qué diferentes regiones del pulmón (o pulmones de diferentes pacientes) se llenan a velocidades distintas.</li>
+                <li><strong>Optimizar la ventilación mecánica:</strong> Guiar el ajuste de los tiempos inspiratorio y espiratorio en un ventilador para asegurar que el volumen de aire deseado sea entregado y exhalado eficazmente.</li>
+                <li><strong>Prevenir complicaciones:</strong> Evitar el "atrapamiento aéreo", una condición peligrosa que ocurre cuando no se da suficiente tiempo para la exhalación completa.</li>
+                <li><strong>Personalizar la terapia:</strong> Adaptar los parámetros ventilatorios según las características mecánicas específicas de cada paciente.</li>
+            </ul>
+        </section>
+        
+        <section id="componentes">
+            <h2>3. Componentes y Arquitectura del Modelo</h2>
+            
+            <h3>Componente Principal 1: Definición y Cálculo</h3>
+            <p>La constante de tiempo es el producto de la <strong>distensibilidad del sistema respiratorio</strong> y la <strong>resistencia de las vías aéreas</strong>. Representa el tiempo necesario para que la presión o el volumen de una unidad pulmonar alcance el <strong>63.2%</strong> del cambio total posible durante la inspiración o espiración pasiva.</p>
+            <div class="formula-box">TC = C × R<sub>aw</sub></div>
+            
+            <div id="dinamica-exponencial">
+                <h3>Componente Principal 2: Dinámica Exponencial de Llenado y Vaciado</h3>
+                <p>El llenado y vaciado de los pulmones no es un proceso lineal, sino <strong>exponencial</strong>. La constante de tiempo actúa como la unidad de medida fundamental. Haz clic en los botones para ver cuánto se llena el pulmón en cada etapa temporal.</p>
+                <div id="chart-container">
+                    <div id="fill-bar"></div>
+                </div>
+                <div id="percentage-label">0% - Presiona un botón para comenzar</div>
+                <div id="botones-tc">
+                    <button class="boton-interactivo" data-tc="1">1 TC (63.2%)</button>
+                    <button class="boton-interactivo" data-tc="2">2 TCs (86.5%)</button>
+                    <button class="boton-interactivo" data-tc="3">3 TCs (95.0%)</button>
+                    <button class="boton-interactivo" data-tc="4">4 TCs (98.2%)</button>
+                    <button class="boton-interactivo" data-tc="5">5 TCs (99.3%)</button>
+                    <button class="boton-interactivo" data-tc="0" style="background: linear-gradient(135deg, var(--color-acento), #c82333);">Reset</button>
+                </div>
+                <p style="margin-top: 1rem; font-style: italic; color: var(--color-texto);">
+                    <strong>Nota clínica:</strong> En la práctica, se considera que 3-4 TCs son suficientes para un llenado/vaciado completo clínicamente aceptable.
+                </p>
+            </div>
+
+            <h3>Componente Principal 3: Clasificación de Unidades Pulmonares</h3>
+            <p>La patología pulmonar altera la <strong>C</strong> y la <strong>R<sub>aw</sub></strong>, creando unidades con diferentes constantes de tiempo que coexisten en el mismo pulmón, generando <em>heterogeneidad temporal</em>.</p>
+            <div class="unidades-pulmonares">
+                <div class="unidad">
+                    <h4>🚀 Unidades Pulmonares Rápidas (TC Corto)</h4>
+                    <p><strong>Características:</strong> Tienen una constante de tiempo breve (&lt; 0.5s). Se llenan y vacían muy rápido.</p>
+                    <p><strong>Patología típica:</strong> Pulmones con baja distensibilidad (rígidos), como en la <em>fibrosis pulmonar intersticial</em> o <em>síndrome de distrés respiratorio agudo (SDRA)</em>.</p>
+                    <p><strong>Comportamiento:</strong> Requieren alta presión para inflarse pero lo hacen velozmente. Riesgo de barotrauma si la presión es excesiva.</p>
+                </div>
+                <div class="unidad">
+                    <h4>🐌 Unidades Pulmonares Lentas (TC Largo)</h4>
+                    <p><strong>Características:</strong> Tienen una constante de tiempo prolongada (&gt; 2s). Se llenan y vacían muy lentamente.</p>
+                    <p><strong>Patología típica:</strong> Pulmones con alta resistencia (vías aéreas obstruidas, como en <em>asma</em> o <em>EPOC</em>) o con alta distensibilidad (pulmones flácidos, como en el <em>enfisema</em>).</p>
+                    <p><strong>Comportamiento:</strong> Necesitan tiempos inspiratorios y espiratorios prolongados. Alto riesgo de atrapamiento aéreo si los tiempos son insuficientes.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="flujo-proceso">
+            <h2>4. Flujo del Proceso y Relaciones Dinámicas</h2>
+            <p>La aplicación clínica de la constante de tiempo sigue un proceso lógico para ajustar la ventilación mecánica. Usa los controles interactivos para simular diferentes escenarios clínicos y observar cómo afectan los tiempos respiratorios recomendados.</p>
+            <div id="calculadora-clinica">
+                <div class="controles-calculadora">
+                    <h3>⚙️ Ajustar Parámetros del Paciente</h3>
+                    <div class="control-grupo">
+                        <label for="slider-distensibilidad">
+                            Distensibilidad (C): <span id="valor-distensibilidad" class="resultado-valor">0.05</span> L/cmH₂O
+                        </label>
+                        <input type="range" id="slider-distensibilidad" min="0.01" max="0.2" step="0.01" value="0.05">
+                        <div class="valor-unidades">
+                            <span style="color: var(--color-acento);">← Rígido (Fibrosis)</span>
+                            <span style="float: right; color: var(--color-exito);">Elástico (Normal) →</span>
+                        </div>
+                    </div>
+                    <div class="control-grupo">
+                        <label for="slider-resistencia">
+                            Resistencia (R<sub>aw</sub>): <span id="valor-resistencia" class="resultado-valor">10</span> cmH₂O/(L/s)
+                        </label>
+                        <input type="range" id="slider-resistencia" min="1" max="30" step="1" value="10">
+                        <div class="valor-unidades">
+                            <span style="color: var(--color-exito);">← Vías Abiertas</span>
+                            <span style="float: right; color: var(--color-acento);">Obstruidas (EPOC/Asma) →</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem; padding: 1rem; background: #e9f7f9; border-radius: var(--borde-radio); border-left: 4px solid var(--color-primario);">
+                        <strong>💡 Tip Clínico:</strong> Valores normales aproximados: C = 0.05-0.1 L/cmH₂O, R<sub>aw</sub> = 5-15 cmH₂O/(L/s)
+                    </div>
+                </div>
+                <div class="resultados-calculadora">
+                    <h3>📊 Resultados y Tiempos Sugeridos</h3>
+                    <div class="resultado-item">
+                        <strong>Constante de Tiempo (TC):</strong>
+                        <div class="resultado-valor"><span id="output-tc">0.50</span> segundos</div>
+                    </div>
+                    <div class="resultado-item">
+                        <strong>Tiempo Inspiratorio (T<sub>i</sub>) Sugerido:</strong>
+                        <div class="resultado-valor">≥ <span id="output-ti">1.50</span> s (≥ 3 TCs)</div>
+                        <small>Para permitir llenado completo del 95%</small>
+                    </div>
+                    <div class="resultado-item">
+                        <strong>Tiempo Espiratorio (T<sub>e</sub>) Sugerido:</strong>
+                        <div class="resultado-valor">≥ <span id="output-te">2.00</span> s (≥ 4 TCs)</div>
+                        <small>Para permitir vaciado completo del 98.2%</small>
+                    </div>
+                    
+                    <h4>🫁 Visualizador del Ciclo Respiratorio</h4>
+                    <div id="breath-cycle-viz">
+                        <div id="inspiration-bar">Inspiración</div>
+                        <div id="expiration-bar">Espiración</div>
+                    </div>
+                    
+                    <div id="interpretacion-clinica" style="margin-top: 1rem; padding: 1rem; border-radius: var(--borde-radio); font-weight: 500;"></div>
+                    
+                    <div id="warning-air-trapping">
+                        ⚠️ <strong>¡Alerta de Atrapamiento Aéreo!</strong><br>
+                        Una constante de tiempo larga requiere un tiempo espiratorio prolongado para evitar el atrapamiento aéreo y la hiperinsuflación dinámica.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="definiciones">
+            <h2>5. Definiciones de Términos Clave</h2>
+            <ul class="lista-definiciones">
+                <li class="termino-clave">
+                    <strong>Constante de Tiempo (TC):</strong> El tiempo, en segundos, que representa el producto de la distensibilidad y la resistencia (TC = C × R<sub>aw</sub>). Define la velocidad de llenado/vaciado de una unidad pulmonar y corresponde al tiempo necesario para alcanzar el 63.2% del cambio total.
+                </li>
+                <li class="termino-clave">
+                    <strong>Unidad Pulmonar Rápida:</strong> Una región del pulmón con una constante de tiempo corta (&lt; 0.5s), que se llena y vacía rápidamente. Típica de pulmones rígidos como en la fibrosis pulmonar o SDRA.
+                </li>
+                <li class="termino-clave">
+                    <strong>Unidad Pulmonar Lenta:</strong> Una región del pulmón con una constante de tiempo larga (&gt; 2s), que se llena y vacía lentamente. Característica de pulmones con alta resistencia (EPOC, asma) o alta distensibilidad (enfisema).
+                </li>
+                <li class="termino-clave">
+                    <strong>Atrapamiento Aéreo (Air Trapping):</strong> Condición patológica en la que el volumen de aire permanece atrapado en los pulmones al final de la espiración debido a un tiempo espiratorio insuficiente, causando hiperinsuflación dinámica.
+                </li>
+                <li class="termino-clave">
+                    <strong>Heterogeneidad Temporal:</strong> La coexistencia de unidades pulmonares con diferentes constantes de tiempo en el mismo pulmón, resultando en velocidades de llenado y vaciado desiguales entre diferentes regiones pulmonares.
+                </li>
+                <li class="termino-clave">
+                    <strong>Hiperinsuflación Dinámica:</strong> Acumulación progresiva de volumen pulmonar debido a un vaciado incompleto, secundario a tiempos espiratorios inadecuados en relación con la constante de tiempo del pulmón.
+                </li>
+            </ul>
+        </section>
+        
+        <section id="analogia">
+            <h2>6. Aplicación Práctica y Analogía Visual</h2>
+            <p>Para comprender mejor el concepto, utilizamos la analogía de <strong>dos sistemas hidráulicos</strong> que representan diferentes tipos de unidades pulmonares. Esta analogía ilustra cómo la combinación de "resistencia del tubo" (resistencia de vías aéreas) y "tamaño del contenedor" (distensibilidad) determina la velocidad de llenado.</p>
+            
+            <div id="analogia-contenedor">
+                <button class="boton-interactivo" id="btn-iniciar-analogia">💧 Iniciar Demostración de Llenado</button>
+                <div id="analogia-visual">
+                    <div class="sistema-analogia" id="sistema-a">
+                        <h4>Sistema A - Unidad Pulmonar Rápida</h4>
+                        <div class="manguera"></div>
+                        <div class="cubeta">
+                            <div class="agua"></div>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            <strong>Tubo ancho + Contenedor pequeño</strong><br>
+                            = TC corto = Llenado rápido
+                        </p>
+                    </div>
+                    <div class="sistema-analogia" id="sistema-b">
+                        <h4>Sistema B - Unidad Pulmonar Lenta</h4>
+                        <div class="manguera"></div>
+                        <div class="cubeta">
+                            <div class="agua"></div>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            <strong>Tubo estrecho + Contenedor grande</strong><br>
+                            = TC largo = Llenado lento
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-radius: var(--borde-radio); border-left: 5px solid var(--color-secundario);">
+                    <h4 style="color: var(--color-texto); margin-bottom: 1rem;">🏥 Aplicación Clínica:</h4>
+                    <p><strong>Un paciente con EPOC</strong> puede tener regiones pulmonares que se comportan como el <strong>Sistema B</strong>. Si el ventilador está configurado con un tiempo espiratorio corto (como si estuviera tratando al Sistema A), estas regiones nunca tendrán tiempo de vaciarse completamente antes de que se intente llenarlas de nuevo, causando <em>atrapamiento aéreo</em> progresivo.</p>
+                    <p style="margin-top: 1rem;"><strong>Solución:</strong> Aumentar el tiempo espiratorio basándose en la constante de tiempo calculada (≥ 4 TCs) para permitir el vaciado completo de todas las unidades pulmonares.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><strong>Simulación Educativa de Mecánica Respiratoria</strong></p>
+        <p>Herramienta interactiva para la comprensión de la constante de tiempo respiratoria en ventilación mecánica.</p>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- LÓGICA SECCIÓN 3: DINÁMICA EXPONENCIAL ---
+    const botonesTc = document.getElementById('botones-tc');
+    const fillBar = document.getElementById('fill-bar');
+    const percentageLabel = document.getElementById('percentage-label');
+    
+    const tcData = {
+        '0': { percent: '0%', text: '0% - Estado inicial', description: 'Sin llenado' },
+        '1': { percent: '63.2%', text: '63.2% completado', description: '1 Constante de Tiempo - Llenado moderado' },
+        '2': { percent: '86.5%', text: '86.5% completado', description: '2 Constantes de Tiempo - Llenado avanzado' },
+        '3': { percent: '95.0%', text: '95.0% completado', description: '3 Constantes de Tiempo - Llenado casi completo' },
+        '4': { percent: '98.2%', text: '98.2% completado', description: '4 Constantes de Tiempo - Llenado prácticamente completo' },
+        '5': { percent: '99.3%', text: '99.3% completado', description: '5 Constantes de Tiempo - Llenado máximo' },
+    };
+
+    botonesTc.addEventListener('click', (e) => {
+        if (e.target.matches('button')) {
+            const tc = e.target.dataset.tc;
+            if (tcData[tc]) {
+                fillBar.style.width = tcData[tc].percent;
+                fillBar.textContent = tcData[tc].percent;
+                percentageLabel.innerHTML = `<strong>${tcData[tc].text}</strong><br><small>${tcData[tc].description}</small>`;
+                
+                // Efecto visual en el botón presionado
+                document.querySelectorAll('#botones-tc .boton-interactivo').forEach(btn => {
+                    btn.style.transform = '';
+                    btn.style.boxShadow = '';
+                });
+                e.target.style.transform = 'translateY(-2px) scale(1.05)';
+                e.target.style.boxShadow = '0 8px 25px rgba(23, 162, 184, 0.4)';
+            }
+        }
+    });
+
+    // --- LÓGICA SECCIÓN 4: CALCULADORA CLÍNICA ---
+    const sliderC = document.getElementById('slider-distensibilidad');
+    const sliderR = document.getElementById('slider-resistencia');
+    const valorC = document.getElementById('valor-distensibilidad');
+    const valorR = document.getElementById('valor-resistencia');
+    const outputTc = document.getElementById('output-tc');
+    const outputTi = document.getElementById('output-ti');
+    const outputTe = document.getElementById('output-te');
+    const inspBar = document.getElementById('inspiration-bar');
+    const expBar = document.getElementById('expiration-bar');
+    const airTrappingWarning = document.getElementById('warning-air-trapping');
+    const interpretacionClinica = document.getElementById('interpretacion-clinica');
+    
+    function updateCalculator() {
+        const C = parseFloat(sliderC.value);
+        const R = parseFloat(sliderR.value);
+
+        // Actualizar etiquetas de los sliders
+        valorC.textContent = C.toFixed(3);
+        valorR.textContent = R.toFixed(0);
+
+        // Calcular valores
+        const TC = C * R;
+        const Ti = 3 * TC;
+        const Te = 4 * TC;
+        
+        // Mostrar resultados
+        outputTc.textContent = TC.toFixed(2);
+        outputTi.textContent = Ti.toFixed(2);
+        outputTe.textContent = Te.toFixed(2);
+
+        // Actualizar visualizador del ciclo
+        const totalTime = Ti + Te;
+        const inspPercent = (Ti / totalTime) * 100;
+        const expPercent = (Te / totalTime) * 100;
+        
+        inspBar.style.flexGrow = Ti;
+        inspBar.textContent = `Inspiración ${Ti.toFixed(1)}s`;
+        expBar.style.flexGrow = Te;
+        expBar.textContent = `Espiración ${Te.toFixed(1)}s`;
+
+        // Interpretación clínica
+        let interpretacion = '';
+        let colorFondo = '';
+        
+        if (TC < 0.5) {
+            interpretacion = '🚀 <strong>Unidad Rápida:</strong> TC corto sugiere pulmón rígido (baja distensibilidad). Típico de fibrosis o SDRA.';
+            colorFondo = 'background: linear-gradient(135deg, #d4edda, #c3e6cb); border-left: 5px solid var(--color-exito);';
+        } else if (TC >= 0.5 && TC <= 1.5) {
+            interpretacion = '✅ <strong>Rango Normal:</strong> TC dentro de parámetros fisiológicos normales.';
+            colorFondo = 'background: linear-gradient(135deg, #d1ecf1, #bee5eb); border-left: 5px solid var(--color-primario);';
+        } else if (TC > 1.5 && TC <= 3.0) {
+            interpretacion = '⚠️ <strong>Unidad Lenta:</strong> TC prolongado sugiere obstrucción de vías aéreas o pulmón muy distensible.';
+            colorFondo = 'background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 5px solid var(--color-secundario);';
+        } else {
+            interpretacion = '🚨 <strong>Unidad Muy Lenta:</strong> TC muy prolongado indica patología severa. Alto riesgo de atrapamiento aéreo.';
+            colorFondo = 'background: linear-gradient(135deg, #f8d7da, #f5c2c7); border-left: 5px solid var(--color-acento);';
+        }
+        
+        interpretacionClinica.innerHTML = interpretacion;
+        interpretacionClinica.style.cssText = colorFondo + ' padding: 1rem; border-radius: var(--borde-radio);';
+
+        // Mostrar advertencia si la constante de tiempo es larga
+        if (TC > 1.5) {
+            airTrappingWarning.style.display = 'block';
+        } else {
+            airTrappingWarning.style.display = 'none';
+        }
+
+        // Actualizar colores de los sliders según valores críticos
+        if (C < 0.03) {
+            valorC.style.color = 'var(--color-acento)';
+        } else if (C > 0.15) {
+            valorC.style.color = 'var(--color-exito)';
+        } else {
+            valorC.style.color = 'var(--color-primario)';
+        }
+
+        if (R > 20) {
+            valorR.style.color = 'var(--color-acento)';
+        } else if (R < 8) {
+            valorR.style.color = 'var(--color-exito)';
+        } else {
+            valorR.style.color = 'var(--color-primario)';
+        }
+    }
+
+    sliderC.addEventListener('input', updateCalculator);
+    sliderR.addEventListener('input', updateCalculator);
+    
+    // Inicializar calculadora
+    updateCalculator();
+
+    // --- LÓGICA SECCIÓN 6: ANALOGÍA MEJORADA ---
+    const btnAnalogia = document.getElementById('btn-iniciar-analogia');
+    const aguaA = document.querySelector('#sistema-a .agua');
+    const aguaB = document.querySelector('#sistema-b .agua');
+
+    btnAnalogia.addEventListener('click', () => {
+        // Deshabilitar botón durante la animación
+        btnAnalogia.disabled = true;
+        btnAnalogia.textContent = '🔄 Llenando...';
+        btnAnalogia.style.background = 'var(--color-secundario)';
+
+        // Resetear animación
+        aguaA.classList.remove('llenando');
+        aguaB.classList.remove('llenando');
+        aguaA.style.height = '0';
+        aguaB.style.height = '0';
+
+        // Forzar reflow para reiniciar la transición
+        void aguaA.offsetWidth;
+        void aguaB.offsetWidth;
+        
+        // Iniciar animación
+        setTimeout(() => {
+            aguaA.classList.add('llenando');
+            aguaB.classList.add('llenando');
+            aguaA.style.height = '100%';
+            aguaB.style.height = '100%';
+        }, 100);
+
+        // Rehabilitar botón después de la animación más larga
+        setTimeout(() => {
+            btnAnalogia.disabled = false;
+            btnAnalogia.textContent = '💧 Reiniciar Demostración';
+            btnAnalogia.style.background = '';
+        }, 5500);
+    });
+
+    // --- EFECTOS VISUALES ADICIONALES ---
+    
+    // Efecto de paralaje optimizado
+    let ticking = false;
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector('header');
+        const speed = scrolled * 0.3;
+        parallax.style.transform = `translate3d(0, ${speed}px, 0)`;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    });
+
+    // Animación de entrada para las secciones
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Aplicar animación de entrada a todas las secciones
+    document.querySelectorAll('main > section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(section);
+    });
+
+});
+    </script>
+
+</body>
+</html>
